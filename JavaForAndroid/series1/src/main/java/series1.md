@@ -86,7 +86,7 @@ JVM栈是线程私有的，每个线程创建的同时都会创建JVM栈，JVM�
 第六块：本地方法堆栈（Native Method Stacks）
 
 JVM采用本地方法堆栈来支持native方法的执行，此区域用于存储每个native方法调用的状态。
-###Demo2
+###Demo2 (基本数据类型)
     public class Demo2 {
     
     
@@ -143,7 +143,7 @@ JVM采用本地方法堆栈来支持native方法的执行，此区域用于存�
         private static void bianLiang() {
             //变量 有数据类型的，且可以改变内容的标识符
             //(1)变量与常量的相同点是在声明之前都指定变量的数据类型，变量无final关键字声明。
-            //（2）声明变量语法：<类型>variable;
+            //(2)声明变量语法：<类型>variable;
             int a = 20;
             //常量 存储在常量池中
             // （1）常量表示的是在程序中不能被修改的数据。
@@ -157,7 +157,7 @@ JVM采用本地方法堆栈来支持native方法的执行，此区域用于存�
         }
     }
 ####基本数据类型
-boolean(布尔型,1/8Bytes) byte(字节类型,1)  char(字符类型,2)  short(短整型,2) int(整形,4)  float(浮点类型,单精度,4) long(长整型,8) double(浮点型,双精度,8)
+boolean(布尔型) byte(字节类型,1byte)  char(字符类型,2)  short(短整型,2) int(整形,4)  float(浮点类型,单精度,4) long(长整型,8) double(浮点型,双精度,8)
 ######Java默认整型是int类型,若要定义成float型,则要在数值后面加上f或F
 ######Java默认浮点型是double类型,若要定义成float型,则要在数值后面加上f或F
 ####基本数据类型自动装换
@@ -166,3 +166,406 @@ float->double
 int->float
 long->double
 小可转大，大要转小则损失精度
+###Demo3  （转义字符，运算符）
+    public class Demo3 {
+    
+        public static void main(String[] args) {
+    
+            //'\'转义
+            zhuanYi();
+    
+            //运算符   算术、赋值、比较、逻辑、位运算、三目运算符
+            yunSuanFu();
+        }
+    
+        
+        private static void yunSuanFu() {
+            int a=18;
+            int b=10;
+    
+            int c=a-b;
+    
+            //算术 + , - , *, /, %, ++,--
+            ////////////////////////////////////////
+            int d=++c; //先自加，后返回（表达式的结果）,因此d=9,c=9
+    
+            int e=c++; //先返回，后自加，e=9,c=10
+    
+            int f=a/b; //取整数，f=1
+    
+            int h=a%b; //取余数，h=8
+    
+            ///////////////////////////////////////
+            //赋值：  = , +=,-=,/=, *=, %=
+    
+            //String.format(String ,Object ...) 格式化字符串，
+            //将第一个参数中%位置的值用后面的参数替换,按先后顺序替换，
+            //可用的%格式： %d 整数, %f,%.2f 带小数位的float/double,%s 字符串
+            System.out.println(String.format("a=%d,b=%d,c=%d,d=%d,e=%d,f=%d,h=%d",a,b,c,d,e,f,h));//a=18,b=10,c=10,d=9,e=9,f=1,h=8
+    
+    
+            h*=2; //h=h*2;
+    
+            byte b1=127;
+    
+            b1+=1; // -128
+    
+            //b1=127+1; //错误的，128已超出为byte类型大小
+    
+            System.out.println(b1);//-128
+            ///////////////////////////////////////
+    
+            //比较:  >, >= ,  < ,  <= ,  ==, != ,表达式结果为boolean
+    
+            System.out.println("c>d="+(c>d)); //c>d=true
+    
+            boolean b2=c>d;
+    
+            System.out.println("a==c ->"+(a==c)); //a==c ->false
+            ///////////////////////////////////////
+    
+            //逻辑：  &&， || ， ！， &，|
+    
+            // true && true  = true, true && false = false
+            // true || false =true, false || true = true
+            //  !true =false
+            //  true & false :  false,
+            // &与&&区别：   && 如果第一个是false则不再判断后面的值  & 两个都要判断
+            // | 与|| 区别： || 如果第一个是true,则不再判断后面的值，| 两个都要判断
+           ///////////////////////////////////////
+    
+            //位运算:  & 按位与，两个都为1时，则为1，否则为0 ，eg. 1&0=0，1&1=1
+            //         | 按位或，两个中任一个是1时，则为1, eg.   1|0=1,1|1=1,0|0=0
+            //         ^ 按位异或， 两个相同时，为0，不同时为1， eg. 1^0=1,0^0=0,1^1=0
+    
+            //          ~ 按位取反，如果取反之后为负数，则按负数的正数取反加1得出结果，eg. ~10=-11
+    
+            System.out.println(~10000);//-10001
+            ///////////////////////////////////////
+    
+            //移位运算符：>> 向右移，相当于除于2^n  << 向左移，相当于乘于2^n    >>> 无符号移动
+    
+            // -10 >>2 ,与-10/4=-2 不同， 8>>3 ,  8/8=1;  -10>>>2, 无符号移动
+    
+    
+            System.out.println(-10>>>2);//无符号移动，高位补0 //1073741821
+        }
+    
+    
+    
+    
+    
+        //常用的转义字符   "\t" 制表 "\n" 换行
+        private static void zhuanYi() {
+    
+            System.out.println("\t*\t*\t*");//	*	*	*
+            //\t  制表符，\" , \\, \r\n (window 换行）,\n (linux 换行）
+    
+            System.out.println("name=\"小红\",\"age\":20");//name="小红","age":20
+    
+            System.out.println("name=\"小黑\",\n\"age\":20");//name="小黑",
+            //"age":20
+            System.out.println("\\5\\2\\");// \5\2\
+    
+        }
+    }
+####逻辑运算符
+
+* &(与)
+
+         *
+         *  true & true   true
+         *  true & false  false
+         *  false & true  false
+         *  false & false false
+         *  &符号就是你两边都是true才真,两边只要有一个false，就是false
+   
+* |(或)
+               
+         *  true | true   true
+         *  true | false  true
+         *  false | true  true
+         *  false | false false
+         *  只要就一个成立就可以，也就是返回true，只有当两个都是false才会返回false
+       
+* ^(异或)
+               
+         *  true | true   false
+         *  true | false  true
+         *  false | true  true
+         *  false | false false
+         *  相同为false，不同为真
+  
+* ！(非)
+               
+       不是.
+* &&(短路与)
+               
+        功能同&，区别在于短路，就是只要发现一个为false,直接返回false，不在做第二个的判断，&必须判断两个
+ 
+* ||(短路或)
+               
+        功能同|，区别在于短路，就是只要发现一个为true,直接返回true，不在做第二个的判断，|必须判断两个
+####三目运算符
+* 三目运算符  条件表达式？为真的值：为假的值
+    
+    	int max= a>b?a:b;
+    
+    	//使用if-else分支
+    	if(a>b){
+    	    //为真时
+    	    max=a;  
+    	}else{
+                //为假时
+    	    max=b;
+            }
+    
+    	System.out.println("最大数为："+max);
+###Demo4  (分支语句if else)
+        /**
+         * /*if分支语句
+         * <p>
+         * 格式：
+         * if(条件) 单行语句; else 单行语句;
+         * <p>
+         * if(条件){ 多行语句; } else{ 多行语句; }
+         * <p>
+         * if(){} else if(){} else if(){} else{ },整体结构，只有一个分支会执行
+         * <p>
+         * if(){
+         * <p>
+         * if(){} else{}  //嵌套if-else语句
+         * }
+         */
+        
+        //要求： 输入两个数，输出最大的一个数
+        public class Demo4 {
+            public static void main(String[] args) {
+                Scanner sc = new Scanner(System.in);
+                System.out.println("输入两个数");
+                int a = sc.nextInt();
+                int b = sc.nextInt();
+        
+                int cc = 100;
+                if (cc <= 100) {
+                    cc += 50;
+                    if (cc < 100) {
+                        System.out.println("红包还不到100");
+                    } else if (cc < 500) {
+                        System.out.println("红包快到500了，再给点。。。^_^");
+                    } else {
+                        System.out.println("哈。。红包已超过500了");
+                    }
+                }
+        
+                //输入一个星期的数，并输出对应的星期名称，0-星期日，1-星期一，。。6-星期六
+        
+                System.out.println("输入一个星期的数,0-星期日，1-星期一,...,6-星期六: ");
+        
+                int wIndex = sc.nextInt();
+        
+                String wName = "星期";
+                if (wIndex == 0) {
+                    wName += "日";
+                } else if (wIndex == 1) {
+                    wName += "一";
+                } else if (wIndex == 2) {
+                    wName += "二";
+                } else if (wIndex == 3) {
+                    wName += "三";
+                } else if (wIndex == 4) {
+                    wName += "四";
+                } else if (wIndex == 5) {
+                    wName += "五";
+                } else if (wIndex == 6) {
+                    wName += "六";
+                } else {
+                    wName = "星期的编号出错！！！";
+                }
+                System.out.println(wName);
+            }  
+        }
+###Demo5(分支语句 switch)
+        /**
+         * switch分支语句
+         * <p>
+         * 格式：
+         * <p>
+         * switch(表达式1){ //表达式的数据类型： char,byte,short,int,long,enum(jdk 1.5),String(jdk 1.7)
+         * <p>
+         * case 数值1:
+         * <p>
+         * //当表达式1的值为当前位置的数值1时
+         * <p>
+         * 语句;
+         * <p>
+         * case 数值2：
+         * <p>
+         * 语句;
+         * <p>
+         * break;
+         * default:
+         * <p>
+         * //上面case语句没有一个被执行或者在case语句中不存在break，则进入此处，进行默认行为的处理
+         * <p>
+         * 
+         */
+         public class Demo5 {
+    
+                public static void main(String[] args) {
+                    switch (10) {
+            
+                        case 5:
+                            System.out.println("表达式与5匹配");
+                            break;
+                        case 10:
+                            System.out.println("表达式与10匹配");
+                            break;
+                        case 15:
+                            System.out.println("表达式与15匹配");
+                            break;
+                        default:
+                            System.out.println("表达式中不存在与10匹配的语句或没有出现break");
+            
+                    }
+                    switch (5) {
+            
+                        case 5: {
+                            int i = 5; //变量的作用域： 从声明位置开始到 右大括号结束
+                            System.out.println(i);
+                            //break;
+                        }
+                        case 10:
+                            int i = 10;
+                            System.out.println(i);
+                            break;
+                        case 15:
+                            System.out.println("表达式与15匹配");
+                            break;
+                        default:
+                            System.out.println("表达式中不存在与10匹配的语句或没有出现break");
+            
+                    }
+                }
+        }
+###Demo6（循环语句 while do while）
+        /**
+         * 循环语句：
+         * <p>
+         * while循环： 先判断条件，如果条件为true则执行循环体，当循环体执行完后，再接着判断条件。。。
+         * <p>
+         * while(条件表达式){
+         * <p>
+         * 循环体; //执行某一重复使用的功能代码
+         * <p>
+         * 改变循环条件的值;
+         * }
+         * <p>
+         * do-while循环： 先执行循环体，再判断条件
+         * <p>
+         * do{
+         * <p>
+         * }while(条件表达式)
+         * <p>
+         * while与do-while的区别：
+         * <p>
+         * while是先判断后执行（可能一次都不执行循环体），
+         * do-while先执行，再判断（至少执行一次循环体）
+         */
+        public class Demo6 {
+        
+            public static void main(String[] args) {
+                //要求： 求1~100之间数值的和
+                int i = 1;
+                int sum = 0;
+        
+                while (i <= 100) {
+                    sum += i;
+                    i++;
+                }
+        
+                System.out.println("sum=" + sum);
+                //重置变量
+                i = 1;
+                sum = 0;
+                do {
+                    sum += i;
+                    i++;
+                } while (i <= 100);
+                System.out.println("sum=" + sum);
+               //要求： 求5的阶乘
+                int y = 5;
+                int result = 1;
+                do {
+                    result *= i;
+                    y--;
+                } while (y > 1);
+        
+                System.out.println("5的阶乘为 " + result);
+        
+            }
+        }
+###Demo7
+        /**
+         * for循环：
+         * <p>
+         * 定义格式：
+         * <p>
+         * for(初始化表达式1;循环表达式2;循环条件变量变化表达式3){
+         * <p>
+         * //循环体
+         * <p>
+         * }
+         * <p>
+         * 表达式1： 定义循环中使用的变量和循环条件中的变量，其作用域仅限当前for循环中
+         * 表达式2： 每次循环的条件表达式，只有条件为true时，才会执行循环体
+         * <p>
+         * 表达式3： 执行完循环体之后，执行的表达式，一般用于改变循环条件变量的值
+         * <p>
+         * <p>
+         * //嵌套for：
+         * <p>
+         * for(;;){
+         * for(;;){
+         * <p>
+         * }
+         */public class Demo7 {
+    
+            public static void main(String[] args) {
+        
+                for (int i = 0; i < 100; i++) {
+                    //循环100次
+                }
+        
+                int i = 0;
+                for (; i < 100; i++) {
+                    //循环100次
+                }
+        
+                System.out.println(i); //i的作用域只限于for循环体中，可以将初始化表达式的变量放在for循环外定义
+        
+               /* for (; ; ) { //死循环
+        
+                }*/
+                //如果上面的死循环执行，就不会执行下面的调用方法
+                toHex(1000);
+            }
+        
+            private static void toHex(int num) {
+                String result = "";
+        
+                while (num > 0) {
+                    int ln = num & 15; //取低四位
+                    if (ln >= 10) {
+                        result = (char) (ln - 10 + 'a') + result;
+                    } else {
+                        result = ln + result;
+                    }
+        
+                    num = num >> 4; //向右移动四位，即取高四位
+        
+                }
+        
+                System.out.println("0x" + result);
+            }
+         }
