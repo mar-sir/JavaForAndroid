@@ -569,3 +569,5 @@ long->double
                 System.out.println("0x" + result);
             }
          }
+####continue break 的区别
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series1/src/main/java/images/step_1.png?raw=true)
