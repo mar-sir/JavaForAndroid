@@ -49,6 +49,18 @@ public class Demo7 {
         }*/
         //如果上面的死循环执行，就不会执行下面的调用方法
         toHex(1000);
+
+        //continue
+        for (int n = 0; n <= 10; n++) {
+            if (n == 5) continue;
+            System.out.println("n=" + n);
+        }
+        System.out.println("==========================================================");
+        //break
+        for (int n = 0; n <= 10; n++) {
+            if (n == 5) break;
+            System.out.println("n=" + n);
+        }
     }
 
     private static void toHex(int num) {
