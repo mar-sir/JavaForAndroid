@@ -46,6 +46,9 @@ public class ArrayUtils {
             mid = (min + max) / 2;
         }
         return -1;
+
+
+        
     }
 
     //将数组转字符串
