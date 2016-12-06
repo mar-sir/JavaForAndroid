@@ -35,7 +35,7 @@ public class Demo10 {
         Integer a5 = 234;
         Integer a6 = 234;
         //java默认情况下，会在常量池中创建-128~127常量对象
-        System.out.println(a5 == a6);//true
+        System.out.println(a5 == a6);//false
         ////////////////////////////////
         Integer a3 = 0;
         System.out.println(a1 == (a2 + a3));//true
