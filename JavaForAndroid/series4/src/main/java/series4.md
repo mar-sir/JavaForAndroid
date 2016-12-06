@@ -645,7 +645,7 @@
         }
     
     }
-###Demo12(接口运用场景、接口回调)
+###Demo10(接口运用场景、接口回调)
     /**
      * 接口有什么用
      * 使用场景:你叫舍友给你收一下衣服，收完之后给你说一声；
@@ -696,4 +696,4 @@
         }
     }
 ####运行结果
-![]()
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series4/src/main/java/images/step1.png?raw=true)
