@@ -99,7 +99,7 @@
           ArrayList<Object> objects = new ArrayList<>();//可以存对象
 * ArrayList没用泛型之后:
 如果要存放各种各样的样类型，是不是意味着写各种各样对象的链表，那开发者可以不用活了...咦，或者你可以可不用死了，你发现所有类都继承自Object类，那只要这么写一个 ![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series7/src/main/java/images/step1.png?raw=true)，
-在取出元素的时候强转成对应的类型就可以了，是的，这样就可以不会倍写代码累死了。但为什么源码没有这么写，因为它没泛型强大！让我们看下面代码了解泛型的由来。
+在取出元素的时候强转成对应的类型就可以了，是的，这样就可以不会被写代码累死了。但为什么源码没有这么写，因为它没泛型强大！让我们看下面代码了解泛型的由来。
 ######假如我要写一个类存放一个int类型的模型，那简单
         
            public class IntegerFun {
@@ -155,4 +155,5 @@
                 this.data = data;
             }
         }
-######用法:
+######用法:![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series7/src/main/java/images/step3.png?raw=true)
+######这就是使用泛型的原因.
