@@ -85,6 +85,7 @@
             }
         }
 ##泛型
+###泛型由来
 泛型字面意思不知道是什么类型，但又好像什么类型都是。看前面用到的集合都有泛型的影子。
 
         public class ArrayList<E> extends AbstractList<E> implements List<E>, RandomAccess, Cloneable, Serializable {
@@ -140,7 +141,8 @@
                 this.data = data;
             }
         }
-这样总算解决了问题，看用法：![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series7/src/main/java/images/step2.png?raw=true)
+这样总算解决了问题，看用法：
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series7/src/main/java/images/step2.png?raw=true)
 你总觉得你写的前无故人，后无来者了，可是经理还是过来找你了，因为你的程序跑不起来了，你认真的看了一下，发现代码第十五行，存放的是Integer 结果你转成了Float出错了，那你可能会抱怨编译器
 没有立即告诉你这里存在问题，接下来我们来看看运用泛型会怎么样。
     
@@ -155,5 +157,124 @@
                 this.data = data;
             }
         }
-######用法:![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series7/src/main/java/images/step3.png?raw=true)
+######用法:
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series7/src/main/java/images/step3.png?raw=true)
 ######这就是使用泛型的原因.
+###多泛型
+######上面写的还不够全，因为Fun<T>只能存放一种类型的元素，假如我要存放多种呢，我希望你已经会了，再来一个泛型。
+    /**
+     * 泛型类
+     *
+     * @param <T>泛型T
+     * @param <V>泛型V
+     */
+    public class Fun<T, V> {
+        private T data;
+        private V data2;
+    
+        //泛型方法
+        public T getData() {
+            return data;
+        }
+    
+        public void setData(T data) {
+            this.data = data;
+        }
+    
+        public V getData2() {
+            return data2;
+        }
+    
+        public void setData2(V data2) {
+            this.data2 = data2;
+        }
+    }
+######要存放无数个呢.....
+    Fun<T,T1,T2,T3,.,.>{
+    }
+###泛型规范
+######T1,T2,T3,.......泛型可以随便写吗，可以随便写，但我们追求规范。
+* E — Element，常用在java Collection里，如：List<E>,Iterator<E>,Set<E>
+* K,V — Key，Value，代表Map的键值对
+* N — Number，数字
+* T — Type，类型，如String，Integer等等
+
+###泛型接口，泛型类，泛型方法
+* 泛型接口
+
+        /**
+         * 格式:接口名后面跟 <T>
+         *
+         * @param <T>
+         */
+        public interface IManager<T> {
+            void add(T data);
+        
+            T remove(int index);
+        
+            void sop();
+        }
+
+* 泛型类（之前的都是）
+ 
+* 泛型类实现泛型接口(关于怎么更好的构建泛型类，就靠诸君在日后的生涯中寻找答案了)
+    
+        /**
+         * @param <T>
+         */
+        public class Manager<T> implements IManager<T> {
+            private List<T> datas;
+        
+            public Manager() {
+                datas = new ArrayList<>();
+            }
+        
+            @Override
+            public void add(T data) {
+                datas.add(data);
+            }
+        
+            @Override
+            public T get(int index) {
+                return datas.get(index);
+            }
+        
+            @Override
+            public void sop() {
+                for (T t : datas) {
+                    System.out.println(t);
+                }
+            }
+        }
+
+* 泛型方法(前面的好多)
+    
+           @Override
+            public T get(int index) {
+                 return datas.get(index);
+            }
+            
+            //泛型方法
+             public T getData() {
+                 return data;
+             }
+#####案例运行
+         
+         public class Demo2 {
+         
+             public static void main(String[] args) {
+                 Manager<Student> manager = new Manager<Student>();
+                 manager.add(new Student("小鱼", 20));
+                 manager.add(new Student("小黑", 30));
+                 manager.add(new Student("SF", 21));
+         
+                 System.out.println("get--->" + manager.get(1));
+         
+                 manager.sop();
+             }
+         }
+         
+
+
+
+
