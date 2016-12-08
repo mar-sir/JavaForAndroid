@@ -399,7 +399,7 @@
 * Hashtable不允许存放null值(键和值都不可以)，而HashMap可以
 #####相同点
 * 存放元素无序
-###LinkedHashMap继承自HashMap
+####LinkedHashMap继承自HashMap
 * LinkedHashMap 实现与 HashMap 的不同之处在于，LinkedHashMap 维护着一个运行于所有条目的双重链接列表。此链接列表定义了迭代顺序，
   该迭代顺序可以是插入顺序或者是访问顺序(参考以下代码理解)
 * 不是线程安全
@@ -484,5 +484,116 @@
 ![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series6/src/main/java/images/step2.png?raw=true)
 ####LinkedHashMap延伸（用途）
 [最近最少使用LRUcache](http://wiki.jikexueyuan.com/project/java-collection/linkedhashmap-lrucache.html)
+###TreeMap 
+#####使用了二叉权的数据结构，key是有序，保存其唯一性用到了hashCode()、equals()以及比较器（唯一性判断,键排序同TreeSet）
+#####案例一Demo10
+        /**
+         * TreeMap：
+         * 使用了二叉权的数据结构，key是有序，保存其唯一性用到了hashCode()、equals()以及比较器（唯一性判断同HashSet）
+         */
+        public class Demo10 {
+            public static void main(String[] args) {
+                //来个稍微复杂点的：存放一个Student链表
+                //TreeMap<K,V>K类必须实现Comparable<T>接口，用于比较排序
+                TreeMap<String, List<Student>> map = new TreeMap<>();
+                List<Student> students1 = new ArrayList<>();
+                students1.add(new Student("小花", 23));
+                students1.add(new Student("小黑", 20));
+                students1.add(new Student("小鱼", 29));
+                students1.add(new Student("小小", 23));
+                map.put("小班", students1);
+                List<Student> students2 = new ArrayList<>();
+                students2.add(new Student("大花", 230));
+                students2.add(new Student("大黑", 200));
+                students2.add(new Student("大鱼", 290));
+                students2.add(new Student("大大", 230));
+                map.put("大班", students2);
+                Set<Map.Entry<String, List<Student>>> entries = map.entrySet();
+                for (Map.Entry<String, List<Student>> entry : entries) {
+                    List<Student> s = entry.getValue();
+                    System.out.println(entry.getKey() + ":" + s);
+                }
+            }
+        }
+        class Student {
+            private String name;
+            private int age;
+            public Student(String name, int age) {
+                this.age = age;
+                this.name = name;
+            }
+            @Override
+            public String toString() {
+                return "[" + this.name + ":\t" + this.age + "]";
+            }
+        }
+#####运行结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series6/src/main/java/images/step3.png?raw=true)
+####案例二
+        /**
+         * TreeMap自定义比较器
+         * <p>
+         * 案例:按地区存放学校
+         * 建模
+         * //School
+         * //Area
+         */
+        public class Demo11 {
+            public static void main(String[] args) {
+                List<School> schools1 = new ArrayList<School>();
+                schools1.add(new School("10", "火星1"));
+                schools1.add(new School("11", "火星2"));
+                schools1.add(new School("12", "火星3"));
+                List<School> schools2 = new ArrayList<School>();
+                schools2.add(new School("20", "北京1"));
+                schools2.add(new School("21", "北京2"));
+                schools2.add(new School("22", "北京3"));  
+                //如果TreeMap<K,V>的K是自定义类型 ，则此类必须实现Comparable<T>接口，用于比较排序
+                Map<Area, List<School>> clsMap = new TreeMap<Area, List<School>>();
+                clsMap.put(new Area("1004", "火星"), schools1);
+                clsMap.put(new Area("1002", "北京"), schools2); 
+                Set<Map.Entry<Area, List<School>>> entrySet = clsMap.entrySet();
+                for (Map.Entry<Area, List<School>> cls : entrySet) {
+                    List<School> s = cls.getValue();
+                    System.out.println(cls.getKey().id+"\t" + cls.getKey().name + ":" + s);
+                } 
+            }
+        }
+        //
+        class Area implements Comparable<Area> {
+            //名字
+            String name;
+            //编号
+            String id; 
+            public Area(String id, String name) {
+                this.id = id;
+                this.name = name;
+            }   
+            @Override
+            public int compareTo(Area o) {
+                //先比较班级的名称，如果名称相同，再比较id(也可以先比较id再比较name)
+                int r = this.name.compareTo(o.name);
+                return r == 0 ? this.id.compareTo(o.id) : r;
+            }
+            @Override
+            public String toString() {
+                return this.name + "\t";
+            }
+        }
+        class School {
+            private String id;
+            private String name; 
+            public School(String id, String name) {
+                this.id = id;
+                this.name = name;
+            }
+            @Override
+            public String toString() {
+                return "School[id=" + id + ", name=" + name + "]";
+            }
+        }
+#####运行结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series6/src/main/java/images/step4.png?raw=true)
+
 
                 
