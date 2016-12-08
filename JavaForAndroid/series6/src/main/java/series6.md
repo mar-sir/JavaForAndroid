@@ -393,6 +393,7 @@
         
             }
         }
+######额外延伸SparseArray
 ####Hashtable
 #####Hashtable和HashMap的区别
 * Hashtable里面的方法几乎都是同步的，线程安全，HashMap则没有，但效率高。（同ArrAyList和Vector）
