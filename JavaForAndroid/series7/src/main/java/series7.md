@@ -274,6 +274,159 @@
              }
          }
          
+######泛型能代表的太多了，是否能给它一些限制呢，答案也是肯定的。下面来看泛型的上下限。
+####确定上限
+什么叫确定上限，字面意思就是你的上限我已经给你定好了，你不可能再超出这个范围，那就有用到一个关键字 extends，我们让 T（泛型）extends 某一个类，那是不是这个泛型的上限就被你决定了。
+下面我们看代码。
+
+* 定义基类
+ 
+         /**
+          * 基类
+          */
+         public class Person {
+         
+         int age;
+         String name;
+     
+         public Person(String name, int age) {
+             this.name = name;
+             this.age = age;
+         }
+     }
+     
+* 定义子类
+
+        
+        public class Child extends Person {
+        
+        
+            public Child(String name, int age) {
+                super(name, age);
+            }
+        }
+* 还有一个不相关的类
+   
+           public class Dog {
+           
+               private String name;
+               private int age;
+           
+               public Dog(String name, int age) {
+                   this.name = name;
+                   this.age = age;
+               }
+           }
+     
+* 定义泛型类
+  
+          public class Fun1<T extends Person> {//确定上限,（泛型类的建模很重要）
+              private T datas;
+          
+              public T getDatas() {
+                  return datas;
+              }
+          
+              public void setDatas(T datas) {
+                  this.datas = datas;
+              }
+          }
+
+* 运行(接收的引用类型要么是Person类，要么是Person的子类：  确定上限)
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series7/src/main/java/images/step4.png?raw=true)
+####确定下限
+感觉用的不多，关键字 super 
+####案例
+            
+        public class Demo4 {
+            public static void main(String[] args) {
+                Collection<Student> cs = new ArrayList<Student>();
+                cs.add(new Student("李xx", 20));
+                cs.add(new Student("xxx", 19));
+                cs.add(new Student("hhahah", 20));
+                sop2(cs);
+        
+            }
+        
+        
+            //接收的引用类型要么是Student类，要么是Student的父类：  确定下限
+            static void sop2(Collection<? super Student> cs) {
+                Iterator<?> iterator = cs.iterator();
+                while (iterator.hasNext()) {
+                    System.out.println(iterator.next());
+                }
+            }
+        }
+###让我们带着泛型的目光回顾 TreeSet中涉及Collections、Comparator、Comparable
+我们说过TreeSet存储的元素是要支持可排序的，那他有两种方式，一是实现Comparable接口,二是在构造TreeSet实例的时候传一个Comparator实例。
+我们先看源码：
+
+* Comparable
+   
+       package java.lang;
+       
+       public interface Comparable<T> {//一个泛型接口
+           int compareTo(T var1);
+       }
+这就是Comparable所有的代码，简单吧.
+
+
+* Comparator代码巨多，我们也就只看一行
+        
+        public interface Comparator<T> {
+            int compare(T var1, T var2);
+            ...... 
+         }
+和Comparable很像;
+
+* Collections集合工具类，代码巨多，我们也就只看几行
+ 
+         public static <T extends Comparable<? super T>> void sort(List<T> var0) {
+                 var0.sort((Comparator)null);
+             }
+         
+       
+         public static <T> void sort(List<T> var0, Comparator<? super T> var1) {
+              var0.sort(var1);
+            }
+ 当初也许你会很好奇，这个类凭什么帮你排序，现在你知道了吧，你所传的实例都被泛型限定好了，这里出现了一个以前没说过的"?"号，我们先忽略它。
+ 两个sort方法，要么实现Comparable，要么是Comparator，但有一点他们是统一的，就是都是用确定下限的泛型方式。加深印象!
+ 
+####案例 Comparator泛型的确定下限
+* Animal(基类)
+
+        public class Animal {
+             int age;
+             String name;
+        
+            public Animal(int age, String name) {
+                this.age = age;
+                this.name = name;
+            }
+        
+            @Override
+            public String toString() {
+                return "[" + this.name + "\t" + this.age + "]";
+            }
+        }
+ 
+* Cat（子类）
+ 
+        public class Cat extends Animal {
+        
+            public Cat(int age, String name) {
+                super(age, name);
+            }
+        
+            @Override
+            public String toString() {
+                return super.age + "";
+            }
+        }
+* 运行 
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series7/src/main/java/images/step5.png?raw=true)
+######还有一个?号等着去解决...
+
 
 
 
