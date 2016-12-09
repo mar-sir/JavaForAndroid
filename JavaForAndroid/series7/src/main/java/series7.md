@@ -426,7 +426,20 @@
 * 运行 
 ![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series7/src/main/java/images/step5.png?raw=true)
 ######还有一个?号等着去解决...
-
+###? 通配符
+我们在Collections 的源码中看到了好多Comparable<? super T>，那这个？和T有什么关系呢。
+######? 和T没有什么必然的联系。我们要使用T，则必须在定义类的时候申明T，像 class Fun<T>,然后在类里可以使用T这一类型，
+######而？则表示通配（填充），表示通配，表示通配，而不是定义，因此我们使用之前不用定义它，表示通配！就如 Class<?> cls = Person.class.getClass();
+    
+    Class<T>在实例化的时候，T要替换成具体类
+    Class<?>它是个通配泛型，?可以代表任何类型
+    
+    <? extends T>受限统配，表示T的一个未知子类。
+    <? super T>下限统配，表示T的一个未知父类。
+###参考
+ [夯实JAVA基本之一 —— 泛型详解(1)(2):基本使用](http://blog.csdn.net/harvic880925/article/details/49872903)
+ [计算机思维逻辑-泛型 (上)(中)(下)](https://gold.xitu.io/post/5811cad4570c3500680d4a1f)
+ 
 
 
 
