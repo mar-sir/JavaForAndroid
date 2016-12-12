@@ -153,3 +153,83 @@
       waite()和notify()必须在synchronized函数或synchronized　block中进行调用。如果在non-synchronized函数或non-synchronized　block中进行调用，
       虽然能编译通过，但在运行时会发生IllegalMonitorStateException的异常。
 #####案例 wait()
+
+        class WaitRunnable implements Runnable {
+            private Object object = new Object();
+        
+            @Override
+            public void run() {
+                synchronized (object) {
+                    while (true) {
+                        System.out.println(Thread.currentThread().getName() + "将被等待阻塞");
+                        try {
+                            object.wait(5000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        
+            }
+        }
+#####测试代码及结果
+        
+         WaitRunnable waitRunnable = new WaitRunnable();
+         Thread thread1 = new Thread(waitRunnable, "线程1");
+         Thread thread2 = new Thread(waitRunnable, "线程2");
+         thread1.start();
+         thread2.start();
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series9/src/main/java/images/step3.png?raw=true)
+线程1 2 都能被调度,wait（）会释放锁.
+* join（） 也好理解
+举例：正当你排队买票的时候，突然有人插队到你前面了（而且不犯法），售票员只能先接待完插队者的所有需求，才轮到你。
+#####案例join()
+        
+        public class Demo3 {
+            public static void main(String[] args) {
+                Thread2 thread2 = new Thread2("线程2");
+                Thread1 thread1 = new Thread1(thread2,"线程1");
+                thread1.start();
+        
+            }
+        }
+        
+        class Thread1 extends Thread {
+            private Thread2 thread2;
+        
+            public Thread1(Thread2 thread2, String name) {
+                super(name);
+                this.thread2 = thread2;
+            }
+        
+            @Override
+            public void run() {
+                for (int i = 0; i <= 10; i++) {
+                    System.out.println(Thread.currentThread().getName() + "打印" + i);
+                    if (i == 5) {
+                        try {
+                            thread2.start();
+                            thread2.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        
+        
+        class Thread2 extends Thread {
+            public Thread2(String name) {
+                super(name);
+            }
+        
+            @Override
+            public void run() {
+                for (int i = 1; i <= 10; i++) {
+                    System.out.println(Thread.currentThread().getName() + "打印" + i);
+                }
+            }
+        }
+#####结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series9/src/main/java/images/step4.png?raw=true)         
