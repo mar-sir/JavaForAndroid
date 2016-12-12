@@ -181,3 +181,209 @@
                 }
             }
         }
+###线程安全问题
+######多个线程共享数据时，可以出现数据不一致性问题,由于操作共享数据的语句有多条，当线程执行中，由于Cpu被其它线程占用，使得操作停止，当再次获取Cpu时,
+######数据可能已发生的变化，因此造成了数据不一致
+###解决方式,加锁
+ 锁（对象锁）：Java对象中存一个标志("互斥锁")，保证对象在同一时刻，只能有一个线程去使用（访问）它 。
+ 
+*  一个线程访问加锁的对象，其它线程只能等这个线程释放锁后 ，才能访问。
+*  注： 加锁操作后，由于其它线程不停地判断锁是否释放（解锁），所以会影响执行效率
+####加锁的方式
+* 同步非静态方法：
+  在方法声明时，增加synchronized修饰符，针对this对象加锁，如果一个线程访问了这个方法，其它线程在访问this对象的同步方法时，会进入等待状态，
+  直到这方法执行完成后，才能访问。
+* 同步静态方法：在静态方法声明时，增加synchronized修饰，针对.Class对象加锁，如果一个线程访问了这个方法，其它线程在访问这个类的同步静态方法时，
+  会进入等待状态，直到这方法执行完成后，才能访问
+* 同步代码块
+####案例一Demo4(同步方法)
+    
+        public class Demo4 {
+        
+            //线程中访问的共享数据对象
+            static class Test {
+                static int nums = 10;
+        
+                //增加同步静态方法： 对Class类进行加锁，在同一时刻只有一个线程使用此方法
+                static synchronized void sop() {
+                    while (true) {
+                        if (nums > 0) {
+                            try {
+                                Thread.sleep(200);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            System.out.println(Thread.currentThread().getName() + ":" + (nums--));
+                        } else {
+                            nums = new Random().nextInt(5);
+                            break;
+                        }
+                    }
+                }
+        
+                public void show() {
+                    System.out.println(Thread.currentThread().getName() + ":" + (nums--));
+                }
+            }
+        
+            //定义线程的任务类
+            static class MyRunnable implements Runnable {
+        
+                @Override
+                public void run() {
+                    Test.sop();
+                }
+            }
+        
+            public static void main(String[] args) {
+                MyRunnable myRun = new MyRunnable();
+                Thread t1 = new Thread(myRun);
+                Thread t2 = new Thread(myRun);
+                t1.start();
+                t2.start();
+        
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Test t = new Test();
+                System.out.print("访问非同步的方法(main方法)：");
+                t.show();
+            }
+        
+        
+        }
+####运行结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series8/src/main/java/images/step4.png?raw=true)
+####同步代码块
+######存在同步代码区域，这个区域主要是共享数据的操作（多条语句）
+####案例二Demo5(同步代码块)
+    
+        public class Demo5 {
+            static class MyTask implements Runnable {
+                int nums = 10;
+        
+                @Override
+                public void run() {
+                    while (true) {
+                        //增加同步代码块
+                        synchronized (this) {
+                            if (nums > 0) {
+                                try {
+                                    Thread.sleep(500);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                System.out.println(Thread.currentThread().getName() + ":" + (nums--));
+                            } else {
+                                break;
+                            }
+                        }
+        
+                    }
+                }
+            }
+        
+            /**
+             * 不出意外 应该是线程1首先获取到CPU资源，所以run执行完后，nums=0;t2刚开始运行就跳出了。
+             * @param args
+             */
+            public static void main(String[] args) {
+                MyTask task = new MyTask();
+                Thread t1 = new Thread(task);
+                t1.start();
+        
+                Thread t2 = new Thread(task);
+                t2.start();
+            }
+        
+        }
+####运行结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series8/src/main/java/images/step5.png?raw=true)
+####案例三
+
+        public class Demo6 {
+            // 数据类：资源
+            static class Bank {
+                private int money;
+        
+                public Bank(int money) {
+                    this.money = money;
+                }
+        
+                // 为方法加同步锁,如果一个线程进入这个方法，则其它线程只有等到这个线程将方法执行完成之后，才能执行
+                public synchronized void add(int money) {
+                    this.money += money;
+                    show();
+                }
+        
+                // 取钱
+                public synchronized void sub(int money) {
+                    if (this.money >= money) {
+                        this.money -= money;
+                        show();
+                    } else {
+                        System.out.println(Thread.currentThread().getName()
+                                + "->当前的存款不足" + money);
+                    }
+                }
+        
+                public void show() {
+                    System.out.println(Thread.currentThread().getName() + "->当前的存款："
+                            + money);
+                }
+            }
+        
+            // 线程的任务类
+            static class BankAddTask implements Runnable {
+                private Bank bank;
+        
+                public BankAddTask(Bank bank) {
+                    this.bank = bank;
+                }
+        
+                @Override
+                public void run() {
+                    // 存入2000
+                    bank.add(2000);
+                }
+            }
+        
+            static class BankSubTask implements Runnable {
+                private Bank bank;
+        
+                public BankSubTask(Bank bank) {
+                    this.bank = bank;
+                }
+        
+                @Override
+                public void run() {
+                    // 取出2000
+                    bank.sub(2000);
+                }
+            }
+        
+            public static void main(String[] args) {
+                Bank bank = new Bank(1000);
+                BankAddTask bankAddTask = new BankAddTask(bank); //存钱
+                BankSubTask bankSubTask = new BankSubTask(bank); //取钱
+                Thread t1 = new Thread(bankAddTask);
+                t1.setName("存钱");
+                t1.start();
+                Thread t2 = new Thread(bankSubTask);
+                t2.setName("取钱");
+                t2.start();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                bank.show();
+        
+            }
+        
+        
+        }
+####运行结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series8/src/main/java/images/step6.png?raw=true)
