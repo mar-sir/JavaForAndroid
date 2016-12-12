@@ -121,11 +121,12 @@
         
             @Override
             public void run() {
-                while (true) {
-                    synchronized (object) {
+                synchronized (object) {
+                    while (true) {
+        
                         System.out.println(Thread.currentThread().getName() + "要睡觉了，但我不会放掉object的锁");
                         try {
-                            Thread.sleep(5000);//睡5秒
+                            Thread.currentThread().sleep(50);//睡5秒
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -140,7 +141,15 @@
                 SleepRunnable runnable = new SleepRunnable();
                 Thread thread1 = new Thread(runnable, "线程1");
                 Thread thread2 = new Thread(runnable, "线程2");
-                thread1.start();
+                thread1.start();//不一定就是线程1先执行,只是让它处于就绪状态.
                 thread2.start();
             }
 ![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series9/src/main/java/images/step2.png?raw=true)
+等了两分钟，也没执行线程2，说明sleep不会释放锁.
+* wait（）
+对象的方法,在其他线程调用对象的notify或notifyAll方法前，导致当前线程等待。线程会释放掉它所占有的“锁标志”，从而使别的线程有机会抢占该锁。
+      当前线程必须拥有当前对象锁。如果当前线程不是此锁的拥有者，会抛出IllegalMonitorStateException异常。
+      唤醒当前对象锁的等待线程使用notify或notifyAll方法，也必须拥有相同的对象锁，否则也会抛出IllegalMonitorStateException异常。
+      waite()和notify()必须在synchronized函数或synchronized　block中进行调用。如果在non-synchronized函数或non-synchronized　block中进行调用，
+      虽然能编译通过，但在运行时会发生IllegalMonitorStateException的异常。
+#####案例 wait()

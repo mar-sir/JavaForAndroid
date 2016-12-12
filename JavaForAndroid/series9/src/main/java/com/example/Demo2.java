@@ -20,11 +20,12 @@ class SleepRunnable implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            synchronized (object) {
+        synchronized (object) {
+            while (true) {
+
                 System.out.println(Thread.currentThread().getName() + "要睡觉了，但我不会放掉object的锁");
                 try {
-                    Thread.sleep(5000);//睡5秒
+                    Thread.currentThread().sleep(50);//睡5秒
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
