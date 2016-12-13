@@ -156,3 +156,73 @@
         }
 #####结果
 ![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series10/src/main/java/images/step3.png?raw=true)
+#####案例----演示void read(char[]char) 用法
+
+        public class Demo3 {
+            public static void main(String[] args) {
+                FileReader fileReader = null;
+                try {
+                    fileReader = new FileReader(Config.PATH + "testFileWriter2.txt");
+                    char[] buffer = new char[4];//每次最多读4个字符
+                    int n = 0;
+                    while ((n = fileReader.read(buffer)) != -1) {//每次最多读4个字符，如果为-1表示已到文件结束位置
+                        //打印本次读取的内容，从0位置开始，到本次读取的字符个数
+                        System.out.println("读取 "+n+"个字符： "+new String(buffer,0,n));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        fileReader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+#####结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series10/src/main/java/images/step4.png?raw=true)
+可见读取到的内容都是一样的。
+####字符流(FileReader FileWriter)复制文件案例
+    
+        /**
+         * 需求：copy拷贝 Demo1文件
+         * 思路：肯定是边读边写
+         */
+        public class Demo4 {
+            //源文件路径
+            public static final String PATH = "/Volumes/huang/studyfromGitHub/JavaForAndroid/JavaForAndroid/series10/src/main/java/com/example/Demo1.java";
+            public static final String FILENAME = "copyDemo1.java";
+        
+            public static void main(String[] args) {
+                // 1. 声明文件字符的输入、输出流对象
+                FileReader fileReader = null;
+                FileWriter fileWriter = null;
+        
+                try {
+                    // 2. 实例化流操作对象
+                    fileReader = new FileReader(PATH);
+                    fileWriter = new FileWriter(Config.PATH + FILENAME);//如果文件不存在，则会自动创建
+                    char[] buffer = new char[6];
+                    int len = 0;
+                    while ((len = fileReader.read(buffer)) != -1) {//边读
+                        fileWriter.write(buffer, 0, len);//边写,将本次读取的字符写入到复制的文件中
+                    }
+        
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    try {
+                        //最后别忘了关闭流
+                        fileReader.close();
+                        fileWriter.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+#####结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series10/src/main/java/images/step5.png?raw=true)
+标红不是我的错，本来就该标红。
+
