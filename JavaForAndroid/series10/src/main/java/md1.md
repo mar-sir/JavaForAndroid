@@ -98,8 +98,61 @@
                 }
             }
         }
+* Config中的代码
+
+        public static final String PATH = "/Volumes/huang/studyfromGitHub/JavaForAndroid/JavaForAndroid/series10/src/main/java/files/";
 #####结果
 ![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series10/src/main/java/images/step1.png?raw=true)
 ![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series10/src/main/java/images/step2.png?raw=true)
 ######说明默认写入模式为覆盖。
- 
+####字符输入流----Reader
+同样的看他孙子类。
+#####FileReader 继承自InputStreamReader
+构造方法，也是所有源码
+
+        //使用带有指定文件的String参数的构造方法。创建该输入流对象。并关联源文件。
+        public FileReader(String var1) throws FileNotFoundException {
+                super(new FileInputStream(var1));
+            }//如:FileReader fr = new FileReader(String file);
+        //基本同构造方法一，因为构造方法一传的String 目的也是创建一个文件
+        public FileReader(File var1) throws FileNotFoundException {
+                super(new FileInputStream(var1));
+            }//如:FileReader fr = new FileReader(new File(str));//str为String类型
+        
+        //不常用
+        public FileReader(FileDescriptor var1) {
+                super(new FileInputStream(var1));
+            }//如:
+######主要方法:
+* void read()读取单个字符。返回作为整数读取的字符，如果已达到流末尾，则返回 -1。
+
+* void read(char[]char) 将字符读入数组。返回读取的字符数。如果已经到达尾部，则返回-1。
+
+* void close() 关闭此流对象。释放与之关联的所有资源
+#####案例----我们把上一个案例的testFileWriter2.txt文件内容读出来
+
+        public class Demo2 {
+            public static void main(String[] args) {
+                //1.声明FileReader对象
+                FileReader fileReader = null;
+                try {
+                    //2. 实例化FileReader对象
+                    fileReader = new FileReader(Config.PATH + "testFileWriter2.txt");//可能会抛出FileNotFoundException异常
+                    //3.文本读取
+                    int num = 0;
+                    while ((num = fileReader.read()) != -1) {//每次读一个字符，如果为-1表示已到文件结束位置
+                        System.out.print((char) num);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        fileReader.close();//关闭流
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+#####结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series10/src/main/java/images/step3.png?raw=true)
