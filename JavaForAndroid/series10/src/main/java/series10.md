@@ -293,7 +293,7 @@
 [Java设计模式学习09](http://blog.csdn.net/xu__cg/article/details/53024490)
 [Java设计模式学习09](http://blog.csdn.net/xu__cg/article/details/53024490)
 [Java设计模式学习09](http://blog.csdn.net/xu__cg/article/details/53024490)
-######装饰者模式还是比较难懂的。。。。,我也说不了啥，下面案例是我仿照上面博客写的。
+######装饰者模式还是比较难懂的。。。。,我也说不了啥，详解看上面博客,下面案例是我仿照上面博客写的。
 * Behaver 定义行为接口
 
         public interface  Behavior {
