@@ -117,7 +117,7 @@ OutputStream 是所有的输入字节流的父类，它是一个抽象类。同�
 ######主要方法
 * void write(byte[]bytes);//写字节数组
 ####写纯文本文件-----案例
-* Config类代码:
+* Config类代码:（通用案例1，2，3）
 
         public class Config {
             public static final String PATH="/Volumes/huang/studyfromGitHub/JavaForAndroid/JavaForAndroid/series11/src/main/java/files";
@@ -135,6 +135,46 @@ OutputStream 是所有的输入字节流的父类，它是一个抽象类。同�
                     outputStream.write("你好啊，美女".getBytes());
                 } catch (Exception e) {
                     e.printStackTrace();
+                }finally {
+                             try {
+                                 outputStream.close();
+                             } catch (IOException e) {
+                                 e.printStackTrace();
+                             }
+                         }
+            }
+* 结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series11/src/main/java/images/step3.png?raw=true)
+####拷贝纯文本文件-----案例（读，写）
+* 代码
+
+        /**
+             * 拷贝本类文件
+             */
+            private static void copyFile() {
+                String copyName = "copy.java";
+                String sourcePath = "/Volumes/huang/studyfromGitHub/JavaForAndroid/JavaForAndroid/series11/src/main/java/com/example/Demo2.java";
+        
+                FileInputStream inputStream = null;
+                FileOutputStream outputStream = null;
+        
+                try {
+                    inputStream = new FileInputStream(sourcePath);
+                    outputStream = new FileOutputStream(Config.PATH + copyName);
+                    byte[] bytes = new byte[inputStream.available()];
+                    inputStream.read(bytes);
+                    outputStream.write(bytes);
+        
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        inputStream.close();
+                        outputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-        
+* 结果
+![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series11/src/main/java/images/step4.png?raw=true)
