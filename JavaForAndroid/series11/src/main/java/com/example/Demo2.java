@@ -18,8 +18,44 @@ public class Demo2 {
     public static void main(String[] args) {
         //普通的写
         //write();
+        //拷贝纯文本
+        //copyFile();
+        //拷贝图片
+        copyPicture();
+    }
 
-        copyFile();
+    /**
+     * 拷贝图片step1.png
+     */
+    private static void copyPicture() {
+        String picSource = "/Volumes/huang/studyfromGitHub/JavaForAndroid/JavaForAndroid/series11/src/main/java/images/step1.png";
+        String copyName = "copyPic.png";
+
+        FileInputStream inputStream = null;
+        FileOutputStream outputStream = null;
+
+        try {
+            inputStream = new FileInputStream(picSource);
+            outputStream = new FileOutputStream(Config.PATH + copyName);
+
+            //定义缓冲区--字节数组
+            byte[] bytes=new byte[1024]; //每次最多读取1K节字
+            int len=-1;  //每次读取的字节长度
+
+            while((len=inputStream.read(bytes))!=-1){ //-1代表的是文件结尾标识
+                outputStream.write(bytes, 0, len);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                inputStream.close();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
