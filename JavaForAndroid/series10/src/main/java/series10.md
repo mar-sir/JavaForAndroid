@@ -225,6 +225,7 @@
 #####结果
 ![](https://github.com/mar-sir/JavaForAndroid/blob/master/JavaForAndroid/series10/src/main/java/images/step5.png?raw=true)
 标红不是我的错，本来就该标红。
+
 ####字符输出流使用缓冲----FileWriter和BufferedWriter
 * FileWriter      文件字符输出流
 * BufferedWriter  缓冲字符输出流
