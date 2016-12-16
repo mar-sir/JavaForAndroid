@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/series10" />
             <option value="$PROJECT_DIR$/series11" />
             <option value="$PROJECT_DIR$/series12" />
+            <option value="$PROJECT_DIR$/series13" />
             <option value="$PROJECT_DIR$/series2" />
             <option value="$PROJECT_DIR$/series3" />
             <option value="$PROJECT_DIR$/series4" />
@@ -22,6 +23,7 @@
             <option value="$PROJECT_DIR$/series7" />
             <option value="$PROJECT_DIR$/series8" />
             <option value="$PROJECT_DIR$/series9" />
+            <option value="$PROJECT_DIR$/series_buchong" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

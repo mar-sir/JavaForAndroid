@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/series10/series10.iml" filepath="$PROJECT_DIR$/series10/series10.iml" />
       <module fileurl="file://$PROJECT_DIR$/series11/series11.iml" filepath="$PROJECT_DIR$/series11/series11.iml" />
       <module fileurl="file://$PROJECT_DIR$/series12/series12.iml" filepath="$PROJECT_DIR$/series12/series12.iml" />
+      <module fileurl="file://$PROJECT_DIR$/series13/series13.iml" filepath="$PROJECT_DIR$/series13/series13.iml" />
       <module fileurl="file://$PROJECT_DIR$/series2/series2.iml" filepath="$PROJECT_DIR$/series2/series2.iml" />
       <module fileurl="file://$PROJECT_DIR$/series3/series3.iml" filepath="$PROJECT_DIR$/series3/series3.iml" />
       <module fileurl="file://$PROJECT_DIR$/series4/series4.iml" filepath="$PROJECT_DIR$/series4/series4.iml" />
@@ -16,6 +17,7 @@
       <module fileurl="file://$PROJECT_DIR$/series7/series7.iml" filepath="$PROJECT_DIR$/series7/series7.iml" />
       <module fileurl="file://$PROJECT_DIR$/series8/series8.iml" filepath="$PROJECT_DIR$/series8/series8.iml" />
       <module fileurl="file://$PROJECT_DIR$/series9/series9.iml" filepath="$PROJECT_DIR$/series9/series9.iml" />
+      <module fileurl="file://$PROJECT_DIR$/series_buchong/series_buchong.iml" filepath="$PROJECT_DIR$/series_buchong/series_buchong.iml" />
     </modules>
   </component>
 </project>
