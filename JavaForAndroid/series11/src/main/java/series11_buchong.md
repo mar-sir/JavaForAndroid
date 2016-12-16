@@ -231,7 +231,7 @@
             }
         }
 这两个构造函数创建的缓冲区大小在数据过多的时候都会自动增长。
-#####案例运用----拷贝文件
+#####案例运用
 
     /**
      * ByteArrayOutputStream拷贝本文件内容
@@ -239,12 +239,7 @@
     public class Demo9 {
         //源文件路径
         public static final String sourcePath = "/Volumes/huang/studyfromGitHub/JavaForAndroid/JavaForAndroid/series11/src/main/java/com/example/Demo9.java";
-        //目标路径
-        public static final String targetPath = "/Volumes/huang/studyfromGitHub/JavaForAndroid/JavaForAndroid/series11/src/main/java/files";
-    
-        //文件名
-        public static final String fileName = "test.java";
-    
+   
         public static void main(String[] args) {
             try {
                 //得到字节流

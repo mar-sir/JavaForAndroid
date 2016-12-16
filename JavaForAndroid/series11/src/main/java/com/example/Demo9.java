@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
@@ -12,16 +13,13 @@ import java.io.OutputStreamWriter;
  */
 
 /**
- * ByteArrayOutputStream拷贝本文件内容
+ * ByteArrayOutputStream打印本文件内容
  */
 public class Demo9 {
     //源文件路径
     public static final String sourcePath = "/Volumes/huang/studyfromGitHub/JavaForAndroid/JavaForAndroid/series11/src/main/java/com/example/Demo9.java";
-    //目标路径
-    public static final String targetPath = "/Volumes/huang/studyfromGitHub/JavaForAndroid/JavaForAndroid/series11/src/main/java/files";
 
     //文件名
-    public static final String fileName = "test.java";
 
     public static void main(String[] args) {
         try {
@@ -40,9 +38,9 @@ public class Demo9 {
             //将字节流转换成字符流
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(arrayOutputStream);
 
+
             //将字符流包装成缓冲字符流--BufferedWriter
             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
-
             String msg = null;
             while ((msg = bufferedReader.readLine()) != null) {
                 bufferedWriter.write(msg);//向内存中写入数据
